@@ -19,7 +19,6 @@
 using namespace std;
 
 void receiveFromClient();
-void processQuit();
 int newSd;
 bool heloAccepted, fromAccepted, toAccepted, dataAccepted, quit;
 char* fname;
@@ -52,11 +51,11 @@ bool doesFileExist(const char* name) {
 void checkClientMessage(char msg[]) {
     char buf[TMP_LENGTH];
 
-    if(strstr(msg, "HELO")|| strstr(msg, "helo")) {
+    if(strstr(msg, "HELO")) {
         heloAccepted = true;
         sendStatusCode("220   Service ready");
 
-    } else if(strstr(msg, "MAIL FROM") || strstr(msg, "mail from")) {
+    } else if(strstr(msg, "MAIL FROM")) {
         if(!heloAccepted) {
             sendStatusCode("503	 Bad sequence of commands");
             return;
@@ -66,14 +65,12 @@ void checkClientMessage(char msg[]) {
         string duplicate = buf;
         cout<<duplicate<<"\n";
         checkClientMessage(buf);
-        //fname = extractName(duplicate.c_str());
-        fname = "user";
+        fname = extractName(duplicate.c_str());
 
 
-    } else if(strstr(msg, "RCPT TO") || strstr(msg, "rcpt to")) {
+    } else if(strstr(msg, "RCPT TO")) {
         if(!fromAccepted) {
             sendStatusCode("503	 Bad sequence of commands");
-            heloAccepted = false;
             return;
         }
         strtok(msg, ":");
@@ -89,10 +86,9 @@ void checkClientMessage(char msg[]) {
         }
 
 
-    } else if(strstr(msg, "DATA")|| strstr(msg, "data")) {
+    } else if(strstr(msg, "DATA")) {
         if(!toAccepted) {
             sendStatusCode("503	 Bad sequence of commands");
-            heloAccepted = false;
             return;
         }
 
@@ -115,8 +111,13 @@ void checkClientMessage(char msg[]) {
         writeToFile(buf, fname);
         cout<<buf <<"\n";
 
+    } else if(strstr(msg, "QUIT")) {
+
+        sendStatusCode("221	  Service closing transmission channel");
+        closeConnection();
+
     } else {
-        //sendStatusCode("500  Command not implemented");
+        sendStatusCode("500  Command not implemented");
     }
 
 }
@@ -172,9 +173,10 @@ listening:
     }
     cout << "Connected with client" << endl;
     receiveFromClient();
-    if(flag != 3370) {
+    if(flag == 3370) {
         goto listening;
-    }
+    } else
+        close(serverSd);
     cout << "Connection closed..." << endl;
     return 0;
 }
@@ -190,11 +192,7 @@ void receiveFromClient() {
         recv(newSd, (char*)&msg, sizeof(msg), 0);
         cout << "Client: " << msg << endl;
         cout << ">";
-        if(strstr(msg, "QUIT")|| strstr(msg, "quit")) {
-            processQuit();
-            break;
-        } else
-            checkClientMessage(msg);
+        checkClientMessage(msg);
     }
     /*
         //receiving MAIL FROM
@@ -261,18 +259,6 @@ char* extractName(const char* msg) {
     strcat(targetUserName, ".txt");
     cout<<targetUserName<<endl;
     return targetUserName;
-}
-
-void processQuit() {
-	heloAccepted = false;
-	fromAccepted = false;
-	toAccepted = false;
-	 dataAccepted = false;
-	
-
-    sendStatusCode("221	  Service closing transmission channel");
-    closeConnection();
-
 }
 
 void closeConnection() {

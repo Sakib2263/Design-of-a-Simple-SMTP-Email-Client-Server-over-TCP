@@ -1,0 +1,106 @@
+To:user@csedu.com
+From:root@Computer
+Subject:this is test subject
+Date:22 01 2018 19:52
+
+
+Oh hey there
+nice to meet you
+
+
+.
+QUIT
+
+
+To:user@csedu.com
+From:root@Computer
+Subject:this is test subject
+Date:22 01 2018 20:18
+
+
+Oh hey there
+nice to meet you
+
+
+.
+
+
+To:user@csedu.com
+From:root@Computer
+Subject:this is test subject
+Date:22 01 2018 20:25
+
+
+Oh hey there
+nice to meet you
+
+
+.
+QUIT
+
+
+To:user@csedu.com
+From:root@Computer
+Subject:this is test subject
+Date:22 01 2018 20:32
+
+
+Oh hey there
+nice to meet you
+
+
+.
+
+
+To:user@csedu.com
+From:root@Computer
+Subject:this is test subject
+Date:22 01 2018 20:36
+
+
+Oh hey there
+nice to meet you
+
+
+.
+
+
+To:user@csedu.com
+From:root@Computer
+Subject:this is test subject
+Date:22 01 2018 20:37
+
+
+Oh hey there
+nice to meet you
+
+
+.
+
+
+To:user@csedu.com
+From:root@Computer
+Subject:this is test subject
+Date:22 01 2018 20:39
+
+
+Oh hey there
+nice to meet you
+
+
+.
+
+
+To:user@kcsedu.com
+From:root@Computer
+Subject:test subject22222
+Date:22 01 2018 22:38
+
+
+Oh hey there
+nice to meet you
+
+
+.
+
+
